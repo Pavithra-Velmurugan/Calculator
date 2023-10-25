@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      /* Add your custom CSS here to style the calculator */
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="card">
+            <div class="card-body">
+              <input
+                id="expression"
+                type="text"
+                class="form-control"
+                readonly
+              />
+              <div class="btn-toolbar mt-3" role="toolbar">
+                <div class="btn-group mr-2" role="group">
+                  <button class="btn btn-secondary" id="btn-mc">MC</button>
+                  <button class="btn btn-secondary" id="btn-mplus">M+</button>
+                  <button class="btn btn-secondary" id="btn-mminus">M-</button>
+                </div>
+              </div>
+              <div class="btn-toolbar mt-3" role="toolbar">
+                <div class="btn-group mr-2" role="group">
+                  <button class="btn btn-secondary" id="btn-7">7</button>
+                  <button class="btn btn-secondary" id="btn-8">8</button>
+                  <button class="btn btn-secondary" id="btn-9">9</button>
+                  <button class="btn btn-secondary" id="btn-divide">/</button>
+                </div>
+              </div>
+              <div class="btn-toolbar mt-3" role="toolbar">
+                <div class="btn-group mr-2" role="group">
+                  <button class="btn btn-secondary" id="btn-4">4</button>
+                  <button class="btn btn-secondary" id="btn-5">5</button>
+                  <button class="btn btn-secondary" id="btn-6">6</button>
+                  <button class="btn btn-secondary" id="btn-multiply">*</button>
+                </div>
+              </div>
+              <div class="btn-toolbar mt-3" role="toolbar">
+                <div class="btn-group mr-2" role="group">
+                  <button class="btn btn-secondary" id="btn-1">1</button>
+                  <button class="btn btn-secondary" id="btn-2">2</button>
+                  <button class="btn btn-secondary" id="btn-3">3</button>
+                  <button class="btn btn-secondary" id="btn-subtract">-</button>
+                </div>
+              </div>
+              <div class="btn-toolbar mt-3" role="toolbar">
+                <div class="btn-group mr-2" role="group">
+                  <button class="btn btn-secondary" id="btn-0">0</button>
+                  <button class="btn btn-secondary" id="btn-dot">.</button>
+                  <button class="btn btn-secondary" id="btn-equals">=</button>
+                  <button class="btn btn-secondary" id="btn-add">+</button>
+                </div>
+              </div>
+              <button class="btn btn-secondary mt-3" id="btn-clear">C</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const expressionInput = document.getElementById("expression");
+      let memory = 0;
+      let currentOperator = null;
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key.match(/[0-9]/)) {
+          expressionInput.value += event.key;
+        } else if (
+          event.key === "+" ||
+          event.key === "-" ||
+          event.key === "*" ||
+          event.key === "/"
+        ) {
+          expressionInput.value += event.key;
+        } else if (event.key === "Enter") {
+          calculate();
+        } else {
+          alert(
+            "Only numbers and basic arithmetic operators (+, -, *, /) are allowed."
+          );
+        }
+      });
+
+      function calculate() {
+        const expression = expressionInput.value;
+        if (expression) {
+          try {
+            const result = eval(expression);
+            expressionInput.value = result;
+          } catch (error) {
+            alert("Invalid expression.");
+            expressionInput.value = "";
+          }
+        }
+      }
+
+      function clear() {
+        expressionInput.value = "";
+      }
+
+      document
+        .getElementById("btn-equals")
+        .addEventListener("click", calculate);
+      document.getElementById("btn-clear").addEventListener("click", clear);
+
+      // Implement memory functions
+      document
+        .getElementById("btn-mplus")
+        .addEventListener("click", function () {
+          memory += parseFloat(expressionInput.value);
+        });
+
+      document
+        .getElementById("btn-mminus")
+        .addEventListener("click", function () {
+          memory -= parseFloat(expressionInput.value);
+        });
+
+      document.getElementById("btn-mc").addEventListener("click", function () {
+        memory = 0;
+      });
+    </script>
+  </body>
+</html>
